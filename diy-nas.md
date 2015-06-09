@@ -72,88 +72,87 @@ Guest OS에는 Ubuntu Server를 선택했다.
 `http://www.ubuntu.com/download/server`  
 (2014.06현재 14.04 64bit only가 정식버젼)
 
-32bit. 또는 64bit 어떤 ubuntu OS를 설치할 것인가? VM에 메모리 할당을 3G이상 가능 하다면  64bitOS로  설치하자. 특히 PHP기반의 웹하드 App(Pydio)등을 사용하여  2G이상의  파일을 업로드/다운로드다운로드하기 위해서는 64bit 설치가 필요하다.
-언어설정은 기본값인 US와 ENGLISH로 설치한다. 
+32bit. 또는 64bit 어떤 ubuntu OS를 설치할 것인가? VM에 메모리 할당을 3G이상 가능 하다면  64bitOS로  설치하자.  
+특히 PHP기반의 웹하드 App(Pydio)등을 사용하여  2G이상의  파일을 업로드/다운로드다운로드하기 위해서는 64bit 설치가 필요하다.
+언어설정은 기본값인 US와 ENGLISH로 설치한다.  
 그외는 모두 기본값으로 설정
 
 ###네트웍 확인
 VM 설치 이후 Host PC가 인터넷에 연결되어 있다면 NAT모드로 설정되어 있으므로 VM도 DHCP로 아이피가 할당되어 인터넷이 연결이 가능.
 
 ###설치 완료후  콘솔에서의 작업
-아직 외부에서의 접근은 불가능하며 Vmware를 통해 콘솔로 접근한다.
-NAT로 네트웍 구성이되어 있으며 Host PC가 인터넷으로 연결되어 있다면 Guest OS또한 인터넷으로 연결된다.
+아직 외부에서의 접근은 불가능하며 Vmware를 통해 콘솔로 접근한다.  
+NAT로 네트웍 구성이되어 있으며 Host PC가 인터넷으로 연결되어 있다면 Guest OS또한 인터넷으로 연결된다.  
 
 ###최초 SnapShot
-VMware의 Snapshot기능을 이용해 최초 ISO설치 이미지본을 백업한다.
+VMware의 Snapshot기능을 이용해 최초 ISO설치 이미지본을 백업한다.  
 
-##기본 OS설정
+
+##기본 OS Setting
 ###Timezone
 date명령으로 PDT(태평양표준시)로 설정되는 경우 서울시간대로 변경 필요
-
-	root@ubuntu:/etc# date
-	Sun Mar 10 04:21:37 PDT 2013
-	root@ubuntu:/etc#
-
-
+```
+root@ubuntu:/etc# date
+Sun Mar 10 04:21:37 PDT 2013
+root@ubuntu:/etc#
+```
 아래의 디렉토리로 이동  
-
-	root@ubuntu:/usr/share/zoneinfo# cd Asia
-	root@ubuntu:/usr/share/zoneinfo/Asia#
-	root@ubuntu:/usr/share/zoneinfo/Asia# ls -la Seoul
-	 -rw-r--r-- 1 root root 380 Sep  6  2012 Seoul
-	root@ubuntu:/usr/share/zoneinfo/Asia#   
-	
- 기존의 timezone화일 삭제 후 심볼릭 링크를 새로 설정  
- 
-	root@ubuntu:/usr/share/zoneinfo/Asia# ln -sf /usr/share/zoneinfo/Asia/Seoul /etc/localtime
-	root@ubuntu:/usr/share/zoneinfo/Asia#
-	
->ln -sf명령은 심볼릭 링크(일종의 단축키 만들기)이며 기존에 tiemzone 화일을 삭제하고 강제로 새로운 파일을 만드는 옵션이다.  
-
-	root@ubuntu:/etc/init.d# date
-	Sun Mar 10 20:37:11 KST 2013
+```
+root@ubuntu:/usr/share/zoneinfo# cd Asia
+root@ubuntu:/usr/share/zoneinfo/Asia#
+root@ubuntu:/usr/share/zoneinfo/Asia# ls -la Seoul
+ -rw-r--r-- 1 root root 380 Sep  6  2012 Seoul
+root@ubuntu:/usr/share/zoneinfo/Asia#   
+```
+기존의 timezone화일 삭제 후 심볼릭 링크를 새로 설정.(sf옵션은 기존 timezone 화일을 삭제하고 새로운 화일생성)
+```
+root@ubuntu:/usr/share/zoneinfo/Asia# ln -sf /usr/share/zoneinfo/Asia/Seoul /etc/localtime
+root@ubuntu:/usr/share/zoneinfo/Asia#
+```
+시간확인
+```
+root@ubuntu:/etc/init.d# date
+Sun Mar 10 20:37:11 KST 2013
+```
 
 ###한글 세팅
 EUC-KR과 UTF-8을 추가 설치한다.
 기본적으로 root권한으로 수행.
 > root@ubuntu:/#locale
 
-위 명령을 통해 기본적으로 en_US 언어로 설정되어 있음을 알수 있다. 
-
-`locale-gen` 명령을 통해 한글문자셋을 설치한다. 
-
-
-	root@ubuntu:/etc/default# locale-gen ko_KR.EUC-KR
-	Generating locales...
-	  ko_KR.EUC-KR... up-to-date
-	Generation complete.
-	root@ubuntu:/etc/default# locale-gen ㅉㅉㅉko_KR.UTF-8
-	Generating locales...
-	  ko_KR.UTF-8... up-to-date
-	Generation complete.
-
-	root@ubuntu:~# env | grep LANG
-	LANG=en_US.UTF-8
-	root@ubuntu:~#
-	root@ubuntu:~# more /etc/default/locale
-	LANG="en_US.UTF-8"
-	root@ubuntu:~#vi /etc/default/locale
-	 LANG="en_UR.UTF-8"
-	 LANGUAGE="en_US:"
-	 // 위 en_US부분을 ko_KR로 변경할것.
-
+`locale-gen` 명령을 통해 한글문자셋을 설치
+```
+root@ubuntu:/etc/default# locale-gen ko_KR.EUC-KR
+Generating locales...
+  ko_KR.EUC-KR... up-to-date
+Generation complete.
+root@ubuntu:/etc/default# locale-gen ko_KR.UTF-8
+Generating locales...
+  ko_KR.UTF-8... up-to-date
+Generation complete.
+root@ubuntu:~# env | grep LANG
+LANG=en_US.UTF-8
+root@ubuntu:~#
+root@ubuntu:~# more /etc/default/locale
+LANG="en_US.UTF-8"
+root@ubuntu:~#vi /etc/default/locale
+ LANG="en_UR.UTF-8"
+ LANGUAGE="en_US:"
+ // 위 en_US부분을 ko_KR로 변경할것.
+```
 리부팅 후 `env`명령어를 통해 문자셋 확인
+```
+root@ubuntu:~# env | grep LANG
+LANG=ko_KR.UTF-8
+root@ubuntu:~#
+```
 
-	root@ubuntu:~# env | grep LANG
-	LANG=ko_KR.UTF-8
-	root@ubuntu:~#
-
-
-##NETWORK UTIL 설치
-###SSH설치
+##UTIL 설치
+###SSH
 >sudo apt-get install ssh  
 
-기본적으로 시스템설치는 sudo명령을 통해 root 권한으로 설치할것. 최초 OS설치시 설정한 사용자아이디와 패스워드가 root계정 패스워드로 사용된다.
+기본적으로 시스템설치는 sudo명령을 통해 root 권한으로 설치할것. 
+최초 OS설치시 설정한 사용자아이디와 패스워드가 root계정 패스워드로 사용된다.
 인터넷으로 연결된 상태에서 우분투서버를 통해 필요한 패키지를 설치한다 
 
 ####기본포트변경
@@ -161,7 +160,6 @@ EUC-KR과 UTF-8을 추가 설치한다.
 항상 강조하지만  왠만한 시스템 작업은 sudo를 통한 어드민권한으로의 접근으로 진행하자. 
 `Port 22` 부분에서 포트번호를 수정한다.   
 `/etc/init.d/ssh restart` 
-
 
 ###FTP설치
 제일 무난한 ftp 프로그램인 vsftpd  
@@ -171,113 +169,78 @@ anonymus_enable=NO
 locale_enable=YES  
 두개 항목이 위와 같이 설정되어 있는지 확인할것.
 또한 write_enable 주석 해제 후 프로세스 재기동
-
-	hkmade@ubuntu:/etc$ vi vfspd.conf
-	hkmade@ubuntu:/etc$ vi vsftpd.conf
-	hkmade@ubuntu:/etc$ sudo -i
-	[sudo] password for hkmade:
-	root@ubuntu:~# vi /etc/vsftpd.conf
-
-	root@ubuntu:/etc# service vsftpd restart
-	vsftpd stop/waiting
-	vsftpd start/running, process 1300
-	root@ubuntu:/etc# 
-
+```
+root@ubuntu:~# vi /etc/vsftpd.conf
+root@ubuntu:/etc# service vsftpd restart
+vsftpd stop/waiting
+vsftpd start/running, process 1300
+root@ubuntu:/etc# 
+```
 
 ###네트웍 설정 변경
 이제 외부에서 접근이 가능하도록 NAT가 아닌 고유아이피로 설정한다.
 IP자원을 할당 받고 고정방식 IP로 설정한다.
 (CASE에 따라 사설아이피의 포트포워드가 필요할 수도 있다.)
-
-	root@ubuntu:/etc/network#vi interfaces
-		#The primary network interface
-		auto eth0
-		iface eth0 inet dhcp
-
+```
+root@ubuntu:/etc/network#vi interfaces
+	#The primary network interface
+	auto eth0
+	iface eth0 inet dhcp
+```
 아래의 포맷대로 IP를 수정한다
-
-	root@ubuntu:/etc/network#vi interfaces
-		#The primary network interface
-		auto eth0
-		iface eth0 inet static
-		address 10.241.58.179
-		netmask 255.255.255.0
-		gateway 10.241.58.4
-		dns-nameserver 168.126.63.1 8.8.8.8
+```
+root@ubuntu:/etc/network#vi interfaces
+	#The primary network interface
+	auto eth0
+	iface eth0 inet static
+	address 10.241.58.179
+	netmask 255.255.255.0
+	gateway 10.241.58.4
+	dns-nameserver 168.126.63.1 8.8.8.8
+```
 
 저장완료 후 VM설정에서 해당 OS VM의 Setting - Hardware - Network Adapter에서 Brideged모드로 변경 후 VM를 restart한다.
-
 리부팅 후 ping과 기본 네트웍 확인을 통해 네트웍 연결상태를 점검한다.
 
 ###SSH 접근
 이제 불편한 VMware 콘솔의 접근이 아닌 SSH를 통한 원격접근으로 시스템 작업을 진행하자.
 SSH1,2를 지원하는 텔넷 클라이언트로 접속을 진행한다.
 SSH설치시 별도의 포트로 설정했다면 접속시 포트번호를 지정하고 프로토콜은 SSH2로 설정한다. 
-
 또한 텔넷/SSH 클라이언트에서 Character encoding은 UTF-8로 지정한다. 
 
-
 ###Hostname 변경
-/etc/hostname  값 변경
+```
+/etc/hostname
 hostname -F /etc/hostname
+```
 
-이제 작업을 위한 최소한의 OS설정은 마무리되었다. 이 지점에서 본격적인 APM 및 필요한 오픈소스 설치를 하기 전 Snapshot을 진행한다.
+이제 작업을 위한 최소한의 OS설정은 마무리
+이 지점에서 본격적인 APM 및 필요한 오픈소스 설치를 하기 전 Snapshot을 진행한다.
 
 ##APM 설치
  
-
-
 ###Apache2 설치
-	hkmade@ubuntu:~$ sudo -i  
-	[sudo] password for hkmade:  
-	root@ubuntu:~# apt-get install apache2  
-	Reading package lists... Done  
+```
+hkmade@ubuntu:~$ sudo -i  
+[sudo] password for hkmade:  
+root@ubuntu:~# apt-get install apache2  
+Reading package lists... Done  
 	.
 	.
-	Setting up apache2-mpm-worker (2.2.22-6ubuntu2.1) ...
-	* Starting web server apache2                                               
-	* apache2: Could not reliably determine the server's fully qualified domain name, using 127.0.1.1 for ServerName
-	[ OK ]
-	Setting up apache2 (2.2.22-6ubuntu2.1) ...
-	Processing triggers for libc-bin ...
-	ldconfig deferred processing now taking place
-	root@ubuntu:~# 
-	root@ubuntu:~#/etc/apache2/ports.conf
-공유기 설정에서 포트포워딩 추가 할것. 만약 인터넷 서비스의 제한으로 80포트를 사용할수 없는 경우 다른 포트로 웹서비스가 필요. 
-다른 포트를  웹서비스 포트로 사용한다면 위의 ports.conf에서 조정한다. 
+```
+공유기 설정에서 포트포워딩 추가.  
+만약 인터넷 서비스의 제한으로 80포트를 사용할수 없는 경우 다른 포트로 웹서비스가 필요.  
+다른 포트를  웹서비스 포트로 사용한다면 위의 ports.conf에서 조정한다.  
 
 http://xxx.xxx.xxx.xx를 통해 홈페이지 확인 할 것. 
 설치후 기본 htdocs(홈페이지root위치)는 /var/www/html로 지정되어 있다. (Ubuntu 14.04의 경우)
 기존대로 /var/www로 변경하고자 한다면
-/etc/apache2/sites-enabled/000-default.conf 화일에서 DocumentRoot에서 변경한다. 
-
+/etc/apache2/sites-enabled/000-default.conf 화일에서 DocumentRoot에서 변경. 
 
 ###Mysql
 mysql root 패스워드는 설치 중간 창에서 설정한다. 
-
-	hkmade@ubuntu:~$ sudo -i
-	[sudo] password for hkmade:
-	root@ubuntu:~# ls
+```
 	root@ubuntu:~# apt-get install mysql-server
-	Reading package lists... Done
-	Building dependency tree
-	Reading state information... Done
-	The following packages were automatically installed and are no longer required:
-	  linux-headers-3.5.0-17 linux-headers-3.5.0-17-generic
-	Use 'apt-get autoremove' to remove them.
-	The following extra packages will be installed:
-	  libaio1 libdbd-mysql-perl libdbi-perl libhtml-template-perl libmysqlclient18 libnet-daemon-perl libplrpc-perl
-	  libterm-readkey-perl mysql-client-5.5 mysql-client-core-5.5 mysql-common mysql-server-5.5
-	  mysql-server-core-5.5
-	Suggested packages:
-	  libipc-sharedcache-perl tinyca mailx
-	The following NEW packages will be installed:
-	  libaio1 libdbd-mysql-perl libdbi-perl libhtml-template-perl libmysqlclient18 libnet-daemon-perl libplrpc-perl
-	  libterm-readkey-perl mysql-client-5.5 mysql-client-core-5.5 mysql-common mysql-server mysql-server-5.5
-	  mysql-server-core-5.5
-	0 upgraded, 14 newly installed, 0 to remove and 0 not upgraded.
-	Need to get 26.6 MB of archives.
-	After this operation, 92.6 MB of additional disk space will be used.
 	Do you want to continue [Y/n]? y
 	Get:1 http://us.archive.ubuntu.com/ubuntu/ quantal/main libaio1 i386 0.3.109-2ubuntu1 [6,648 B]
 	.
@@ -285,137 +248,71 @@ mysql root 패스워드는 설치 중간 창에서 설정한다.
 	password 설정. (mysql root passwd)
 	mysql start/running, process 6227
 	Setting up libhtml-template-perl (2.91-1) ...
-	Processing triggers for ureadahead ...
-	Setting up mysql-server (5.5.29-0ubuntu0.12.10.1) ...
-	Processing triggers for libc-bin ...
-	ldconfig deferred processing now taking place
+```
 
-루트로 로그인 후 pat-get 명령을 통해h 패키지로 설치한다. netstat -tab명령으로 실제 서비스를 제공하고 있는지 확인  
-
+	netstat -tab명령으로 실제 서비스를 제공하고 있는지 확인  
+```
 	root@ubuntu:~# netstat -tap | grep mysql
 	tcp        0      0 localhost:mysql         *:*                     LISTEN      6227/mysqld
-
+```
 mysql 설정화일은 my.cnf이며 포트와 로그 화일등을 설정할 수 있다. 
-
+```
 	root@ubuntu:~# vi /etc/mysql/my.cnf
-
+```
 ###PHP5
-	hkmade@ubuntu:~$ sudo -i
-	[sudo] password for hkmade:
-	root@ubuntu:~# sudo apt-get install libapache2-mod-php5
+```
+	root@ubuntu:~# apt-get install php5-common php5 libapache2-mod-php5
 	Reading package lists... Done
-	Building dependency tree
-	Reading state information... Done
-	The following packages were automatically installed and are no longer required:
-	  linux-headers-3.5.0-17 linux-headers-3.5.0-17-generic
-	Use 'apt-get autoremove' to remove them.
-	The following extra packages will be installed:
-	  apache2-mpm-prefork php5-cli php5-common
-	Suggested packages:
-	  php-pear
-	The following packages will be REMOVED:
-	  apache2-mpm-worker
-	The following NEW packages will be installed:
-	  apache2-mpm-prefork libapache2-mod-php5 php5-cli php5-common
-	0 upgraded, 4 newly installed, 1 to remove and 0 not upgraded.
-	.
-	.
+	..
 	Do you want to continue [Y/n]? y
 	Get:1 http://us.archive.ubuntu.com/ubuntu/ quantal-updates/main apache2-mpm-prefork i386 2.2.22-6ubuntu2.1 [2,360 B]
-	.
-	dpkg: apache2-mpm-worker: dependency problems, but removing anyway as you requested:
-	 apache2 depends on apache2-mpm-worker (= 2.2.22-6ubuntu2.1) | apache2-mpm-prefork (= 2.2.22-6ubuntu2.1) | apache2-mpm-		event (= 2.2.22-6ubuntu2.1) | apache2-mpm-itk (= 2.2.22-6ubuntu2.1); however:
-	  Package apache2-mpm-worker is to be removed.
-	  Package apache2-mpm-prefork is not installed.
-	  Package apache2-mpm-event is not installed.
-	  Package apache2-mpm-itk is not installed.
-	 * Stopping web server apache2
-	 apache2: Could not reliably determine the server's fully qualified 		domain name, using 127.0.1.1 for ServerName
-	.. waiting                                                                                                            [ OK ]
-	Selecting previously unselected package apache2-mpm-prefork.
-	(Reading database ... 182857 files and directories currently installed.)
-	Unpacking apache2-mpm-prefork (from .../apache2-mpm-prefork_2.2.22-6ubuntu2.1_i386.deb) ...
-	Setting up apache2-mpm-prefork (2.2.22-6ubuntu2.1) ...
- 	* Starting web server apache2   
-	apache2: Could not reliably determine the server's fully qualified 		domain name, using 127.0.1.1 for ServerName
+	...
+	* Starting web server apache2   
+	apache2: Could not reliably determine the server's fully qualified domain name, using 127.0.1.1 for ServerName
                                                                                                                         [ OK ]
-	
+```	
 apache에서 php모듈이 활성화되었는지 다시 확인.
-
-
+```
 	root@ubuntu:~# sudo a2enmod php5
 	Module php5 already enabled
 	root@ubuntu:~#
+```
 
-php기반 웹스토리지 프로그램을 이용할때 upload, download size의 제약이 있다. 이건 php의 설정에 좌우되므로 수정한 후 apache2 프로세스를 재기동 할것.
+php기반 웹스토리지 프로그램을 이용할때 upload, download size의 제약이 있다. 
+php의 설정에 좌우되므로 수정한 후 apache2 프로세스를 재기동 할것.
 우분투에서는 아래의 경로에 php설정화일이 존재한다. 
 기본적으로 32bit OS레벨에서는 2GB이상의 size는 불가능하다.  
 변경해야할 factor는 아래와 같다.  
-
+```
 	memory_limit
 	post_max_size
 	upload_max_filesize
-
 	root:/etc/php5/apache2/php.ini
+```
 
 ###pear 설치
-pear (PHP Extension and Application Repository)
+pear (PHP Extension and Application Repository) install
+```
 	root@ubuntu:/var/www# apt-get install php-pear
-	Reading package lists... Done
-	Building dependency tree
-	Reading state information... Done
-	The following packages were automatically installed and are no longer required:
-  	linux-headers-3.5.0-17 linux-headers-3.5.0-17-generic
-	Use 'apt-get autoremove' to remove them.
-	Suggested packages:
-  	php5-dev
-	The following NEW packages will be installed:
-  	php-pear
-	.
+	....
 	Unpacking php-pear (from .../php-pear_5.4.6-1ubuntu1.1_all.deb) ...
 	Setting up php-pear (5.4.6-1ubuntu1.1) ...
 	root@ubuntu:/var/www#
-
+```
 
 ###PHP설치 확인
 기본 apache 서버의 htdocs인 /var/www 디렉토리 아래에 test.php화일 생성 후 아래 내용 기입  
 `<?php phpinfo(); ?>`  
 http://221.122.xx.xx/test.php  실행 후 정상적인 출력이 되는지 확인.
 
-
 ###PHPmyadmin 설치
+```
 	root@ubuntu:/var/www# apt-get install phpmyadmin
-	.
-	The following extra packages will be installed:
-	  dbconfig-common libmcrypt4 php5-gd php5-mcrypt php5-mysql
-	Suggested packages:
-	  libmcrypt-dev mcrypt
-	The following NEW packages will be installed:``
-	  dbconfig-common libmcrypt4 php5-gd php5-mcrypt php5-mysql phpmyadmin
-	0 upgraded, 6 newly installed, 0 to remove and 0 not upgraded.
-	Do you want to continue [Y/n]? y
-	.
-	Processing triggers for libapache2-mod-php5 ...
+	...
 	 * Reloading web server config                                                  
-	apache2: Could not reliably determine the server's fully qualified domain name, using 	127.0.1.1 for ServerName
-	[ OK ]
-	Creating config file /etc/dbconfig-common/config with new version
-	Setting up libmcrypt4 (2.5.8-3.1) ...
-	Setting up php5-mcrypt (5.4.6-0ubuntu1) ...
-	Processing triggers for libapache2-mod-php5 ...
-	* Reloading web server config
-	apache2: Could not reliably determine the server's fully qualified domain name, using 127.0.1.1 for ServerName
-	[ OK ]
-	Setting up phpmyadmin (4:3.4.11.1-1) ...
-	dbconfig-common: writing config to /etc/dbconfig-common/phpmyadmin.conf
-	Creating config file /etc/dbconfig-common/phpmyadmin.conf with new version
-	Creating config file /etc/phpmyadmin/config-db.php with new version
- 	* Reloading web server config
-	apache2: Could not reliably determine the server's fully qualified domain name, using 127.0.1.1 for ServerName
-	[ OK ]
 	Processing triggers for libc-bin ...
 	root@ubuntu:/var/www#
-
+```
 중간 apache 자동모듈설정부분에서는 스페이스바로 apache를 선택하고 OK
 Configuration phpmyadmin부분에서는 mysql를 설치하고 root비번을 설정한 상태라면.. no로 선택
 **http://xxx.xxx.xxx.xx/phpmyadmin**   으로 접근시 로그인 화면이 나오면 OK.
@@ -424,49 +321,7 @@ Configuration phpmyadmin부분에서는 mysql를 설치하고 root비번을 설�
 한글 문자셋의 충돌을 막기위해서 우분투서버는 utf-8, phpMyadmin에서 보여지는 
 General Settings - MySQL connection collation은  utf8_general_ci로 설정되어 있음을 확인한다.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#IP 수동할당
-이제 기본값으로 설치된 ubuntu에서 VM의 네트웍 설정을 기본값인 NAT에서 Bridged mode로 변경. (HOST PC와 별도로 네트웍을 독자적으로 구성.) 왜냐하면 공유기에서 HostPC와는 별도로 아이피를 할당받아야  외부에서 접근이 가능하다.   
-
-- 기존 VM1은 192.168.25.20
-- Host PC는 192.168.25.45
-- VM2는 192.168.25.30 으로 설정할 것.
-
-command line에서 network 선택
-
-- Edit Connections.. 
-- Wired - Wired connection1 -> edit
-- IPv4 Settings
-- Method - Manual
-- Address, Netmask, Gateway, DNS Server 입력  
-
-적용 후 Establised 된 아이콘 확인.   
-참고로 터니널 창은 시작버튼- 검색에서 terminal 입력
-
-###네트웍 패킷 트래픽
-iptraf 프로그램은 기본적으로 설치되어 있지 않으며 apt-get으로 따로 설치할 것.
-
-	root@ubuntu:~#apt-get install iptraf
-	root@ubuntu:~#apt-get install wireshark
-	
-
-
-
-
-#DIY NAS App설치
+##NAS App설치
 ###Ajaxplorer
 웹하드 인터페이스를 구현한 오픈소스 프로젝트
 홈페이지. http://pyd.io
@@ -475,26 +330,12 @@ iptraf 프로그램은 기본적으로 설치되어 있지 않으며 apt-get으�
 apt-get install 을 이용해서 편리하게 설치(는 안됨.)
 
 site에서 download후 해당 웹서버에 업로드
-
+/var/www에서 해당 화일의 압축을 풀고 http://주소/ajaxp 로 접근하기 위해 디렉토리이름을 mv명령어로 변경.
+```
 	root@ubuntu:/home/hkmade# ls
 	ajaxplorer-core-4.2.3.tar.gz  Documents  examples.desktop  Pictures  Templates
 	Desktop                       Downloads  Music             Public    Videos
-	root@ubuntu:/home/hkmade# gunzip *.gz
-	root@ubuntu:/home/hkmade# ls
-	ajaxplorer-core-4.2.3.tar  Documents  examples.desktop  Pictures  Templates
-	Desktop                    Downloads  Music             Public    Videos
-	root@ubuntu:/home/hkmade# mv *.tar /var/www
-	root@ubuntu:/home/hkmade# cd /var/www
 	root@ubuntu:/home/hkmade# tar xvf ajax*.tar 
-	root@ubuntu:/var/www# ls -la
-	total 15580
-	drwxr-xr-x  3 root   root       4096 Mar  7 20:29 .
-	drwxr-xr-x 15 root   root       4096 Mar  7 06:13 ..
-	drwxr-xr-x  6 root   root       4096 Mar  7 20:29 ajaxplorer-core-4.2.3
-	-rw-------  1 hkmade hkmade 15932416 Mar  7 20:25 ajaxplorer-core-4.2.3.tar
-	-rw-r--r--  1 root   root        177 Mar  7 06:13 index.html
-	-rw-r--r--  1 root   root         20 Mar  7 17:35 test.php
-	root@ubuntu:/var/www#rm aja*.tar
 	root@ubuntu:/var/www# mv ajaxplorer-core-4.2.3 ajaxp
 	root@ubuntu:/var/www# ls -la
 	total 20
@@ -502,10 +343,8 @@ site에서 download후 해당 웹서버에 업로드
 	drwxr-xr-x 15 root root 4096 Mar  7 06:13 ..
 	drwxr-xr-x  6 root root 4096 Mar  7 20:29 ajaxp
 	-rw-r--r--  1 root root  177 Mar  7 06:13 index.html
-	-rw-r--r--  1 root root   20 Mar  7 17:35 test.php
-	root@ubuntu:/var/www#
-	
-/var/www에서 해당 화일의 압축을 풀고 http://주소/ajaxp 로 접근하기 위해 디렉토리이름을 mv명령어로 변경함.
+```
+
 
 ###AjaXplorer 설정
 http://221.148.161.172/ajaxp 로 웹브라우져 접근
