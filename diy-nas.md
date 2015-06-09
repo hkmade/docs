@@ -1,10 +1,11 @@
->* page_title: Dockerfile reference
->* page_description: Dockerfiles use a simple DSL which allows you to automate the steps you would normally manually take to create an image.
->* page_keywords: builder, docker, Dockerfile, automation, image creation
+* page_title: DIY-NAS system guide
+* page_description: NAS system install on Ubuntu OS of PC.
+* page_keywords: nas, vmware, diy, ubuntu
 
 
-#NAS System on Ubuntu Server
-**NAS(Netowrk Attached System)**는 용어에서 보듯 네트웍으로 연결된 스토리지를 말한다.  
+#NAS System on Ubuntu OS
+
+> **NAS(Netowrk Attached System)**는 용어에서 보듯 네트웍으로 연결된 스토리지를 말한다.  
 우리에게는 웹하드라는 서비스로 익히 알려져 있는 시스템이다.  
 NAS 솔루션으로 Opensouce기반의 대표적인 제품은 Pydio가 있다. 다시 말하자면 공짜솔루션이라는 말이다.  
 (하지만 그만큼 설정과 운영은 스스로에게 책임과 권한이 부여된다)   
@@ -13,13 +14,9 @@ NAS 솔루션으로 Opensouce기반의 대표적인 제품은 Pydio가 있다. �
 가상환경에 대한 설정과 이해가 필요하다.
 이 문서는 전통적인 VM가상머신에서 NAS시스템을 구축하는 절차를 담고 있는 가이드 문서이다. 
 
-##Virutal Environment
-개인 PC(or Notebook)에서 리눅스머신을 운용하는 환경은 가상머신이 매우 편리하다.   
-특히 OS의 설치 후 변경 사항에 대한 저장과 복원이 매우 편리하기 때문에 Vmware 나 VirtualBox등의 가상머신의 환경이  
-꼭 필수적이다. 
-하지만 이러한 가상머신환경에서 NAS System을 운영하는 경우 가상머신을 운영하는 hostPC의 디렉토리와 가상머신이  
-연결되어야 하는데 여기서 문제가 발생할 확률이 높다.   
-잘 설정되어  가상머신에서 공유디렉토리 방식으로 PC의 디렉토리와의 접근이 잘 되기도 하지만 그렇지 않은 경우 가상머신의 OS를 재설치해야 할 수도 있다. 
+##Virutal Machine
+개인 PC(or Notebook)에서 리눅스머신을 운용하기위한 환경은 가상머신이 편리하다. 특히 OS의 설치 후 변경 사항에 대한 저장과 복원이 매우 편리하기 때문에 Vmware 나 VirtualBox등의 가상머신의 환경이 필요하다. 하지만 이러한 가상머신환경에서 NAS System을 운영하는 경우 가상머신을 운영하는 hostPC의 디렉토리와 가상머신이  연결되어야 하는데 여기서 문제가 발생할 확률이 높다.   
+가상머신에서 공유디렉토리 방식으로 PC의 디렉토리와의 접근이 원할하면 다행이지만 그렇지 않은 경우 가상머신의 OS를 재설치해야 할 수도 있다. 
 
 ##개인용NAS 시스템을 설치하기 위한 준비
 **Host PC or Notebook**  
@@ -28,7 +25,7 @@ NAS 솔루션으로 Opensouce기반의 대표적인 제품은 Pydio가 있다. �
 
 **Host PC가 사용하는 OS**  
 Host system에는 Windows or Linux를 OS로 사용한다. 사용자의 편의성에 따라 선택하면 될 것이다. 
-개인적으로 Windows 8.1도 충분히 Host PC로서 편리하게 사용하고 있다.                                                                                                                                                                                                                                                                                                   
+개인적으로 Windows 8.1도 충분히 Host PC로서 편리하게 사용하고 있다.     
 
 **VM에 설치할 OS Image**  
 Ubuntu OS 64bit를 이용할 것이다. OS는 반드시 64bit를 준비하도록한다. 
@@ -37,25 +34,20 @@ Ubuntu OS 64bit를 이용할 것이다. OS는 반드시 64bit를 준비하도록
 **Vmware workstation**  
 Vmware의 vplayer도 가능하지만 실시간 snapshot 과 restore를 위해서는 workstation 버젼을 준비하도록 한다. 
 
-**NAS에서 서비스할 데이터파일**
-일반적으로 Host PC에 USB등의 매체를 통해 연결하는 외장형 HDD or 스토리지가 여기에 해당한다. 
-이 문서에서는 USB2.0으로 연결된 외장형 HDD 를 이용한다.
-
+**NAS에서 서비스할 데이터파일 저장소**
+일반적으로 Host PC의 Local HDD나 USB등으로 연결하는 외장형 HDD or 스토리지가 필요하다. 
 
 ##VMware Install
 
-Host PC는 Windows 8.1이 설치되어 있다. Windows나 Linux나 크게 상관은 없지만 Vmware의 GUI나 운영의 친숙함을 볼때
-Windows가 편리하다. 설치는 크게 이슈사항이 없으며 Vmware를 설치한 후에 가상머신의 이미지 생성은 
-가능하다면 SSD를 이용하는 것이 백업과 복원 VM의 기동과 종료에서 속도의 이점을 매우 크게 누릴수 있다. 
+Host PC는 Windows 8.1이 설치되어 있다. Windows나 Linux나 크게 상관은 없지만 Vmware의 GUI나 운영의 친숙함을 볼때 Windows가 편리하다. 설치는 크게 이슈사항이 없으며 Vmware를 설치한 후에 가상머신의 이미지 생성은 가능하다면 SSD를 이용하는 것이 백업과 복원 VM의 기동과 종료에서 속도의 이점을 매우 크게 누릴수 있다. 
 
-###VM생성 및 Guest OS 설치
 **Host PC - VMware workstation - VM - Guest OS**
-이러한 층으로 DIY NAS 시스템은 구성된다.  
+이러한 스택으로 DIY NAS 시스템을 구성한다. 
 
- 
-###VM 생성
-이제 VM의 생성이 필요하다. 
-	~~~
+###Virtual Machine 생성
+Vmware workstation 안내에 따라 설치후 실행하고 VM생성을 진행한다. 
+
+```
 	New Virutal Machine
 	Wizard
 	  Custom 선택
@@ -72,21 +64,15 @@ Windows가 편리하다. 설치는 크게 이슈사항이 없으며 Vmware를 �
 	  Disk 생성은 Create a new virtual disk
 	  Maximum disk size 는 기본값 20G
 	    Allocatie all disk space now 선택
-	  Disk file : virtual machine의 이름 지정. 
-  ~~~
+	  Disk file : virtual machine의 이름 지정.
+```
 
 ###Guest OS Ubuntu 설치
 Guest OS에는 Ubuntu Server를 선택했다.
 `http://www.ubuntu.com/download/server`  
-2014.06현재 14.04 64bit only가 정식버젼이다.
+(2014.06현재 14.04 64bit only가 정식버젼)
 
 32bit. 또는 64bit 어떤 ubuntu OS를 설치할 것인가? VM에 메모리 할당을 3G이상 가능 하다면  64bitOS로  설치하자. 특히 PHP기반의 웹하드 App(Pydio)등을 사용하여  2G이상의  파일을 업로드/다운로드다운로드하기 위해서는 64bit 설치가 필요하다.
-
-###사전설치Check List
-- Ubuntu 홈페이지에서 14.04 LTS Server 버젼을 다운로드한다. iso화일
-- VM의 네트웍은 NAT로 진행한다. (즉 Host PC에서 DHCP로 VM에 네트웍을 할당) 
-
-###Ubuntu 14.04 install
 언어설정은 기본값인 US와 ENGLISH로 설치한다. 
 그외는 모두 기본값으로 설정
 
