@@ -1,6 +1,6 @@
-* page_title: Dockerfile reference
-* page_description: Dockerfiles use a simple DSL which allows you to automate the steps you would normally manually take to create an image.
-* page_keywords: builder, docker, Dockerfile, automation, image creation
+>* page_title: Dockerfile reference
+>* page_description: Dockerfiles use a simple DSL which allows you to automate the steps you would normally manually take to create an image.
+>* page_keywords: builder, docker, Dockerfile, automation, image creation
 
 
 #NAS System on Ubuntu Server
