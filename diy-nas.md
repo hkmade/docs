@@ -11,45 +11,50 @@ NAS 솔루션으로 Opensouce기반의 대표적인 제품은 Pydio가 있다. �
 기존 상용 NAS제품에도 번들형태로 포함되어 있으며 일반적으로 Linux 서버를 구성한후 여기에 Pydio를 설정한다.  
 단 대용량의 파일을 upload/download 하기위해서는 OS의 버젼과 내부 설정이 필요하며 가상환경에서 Linux 머신을 운용하는 경우 
 가상환경에 대한 설정과 이해가 필요하다.
+이 문서는 전통적인 VM가상머신에서 NAS시스템을 구축하는 절차를 담고 있는 가이드 문서이다. 
 
-###Virutal Environment
-개인 PC(or Notebook)에서 리눅스머신을 운용하는 환경은 가상머신이 매우 편리하다. 특히 OS의 설치 후 변경 사항에 대한 저장과 복원이 매우 편리하기 때문에 Vmware 나 VirtualBox등의 가상머신의 환경이 꼭 필수적이다. 
+##Virutal Environment
+개인 PC(or Notebook)에서 리눅스머신을 운용하는 환경은 가상머신이 매우 편리하다. 
+특히 OS의 설치 후 변경 사항에 대한 저장과 복원이 매우 편리하기 때문에 Vmware 나 VirtualBox등의 가상머신의 환경이 꼭 필수적이다. 
+하지만 이러한 가상머신환경에서 NAS System을 운영하는 경우 가상머신을 운영하는 hostPC의 디렉토리와 가상머신이 연결되어야 하는데
+여기서 문제가 발생할 확률이 높다. 잘 설정되어  가상머신에서 공유디렉토리 방식으로 PC의 디렉토리와의 접근이 잘 되기도 하지만 
+그렇지 않은 경우 가상머신의 OS를 재설치해야 할 수도 있다. 
 
-하지만 이러한 가상머신환경에서 NAS System을 운영하는 경우 가상머신을 운영하는 PC의 디렉토리와 가상머신이 연결되어야 하는데 여기서 문제가 발생할 확률이 높다. 잘 설정되어  가상머신에서 공유디렉토리 방식으로 PC의 디렉토리와의 접근이 잘 되기도 하지만 그렇지 않은 경우 가상머신의 OS를 재설치해야 할 수도 있다. 
-
-###개인용NAS 시스템을 설치하기 위한 준비
+##개인용NAS 시스템을 설치하기 위한 준비
 **Host PC or Notebook**  
-가상머신을 설치하여 운영할  시스템이다.  가능하다면 가상머신이 설치되는 파티션은 SSD로 운영하는 것이 가상머신의 백업,복원등의 속도적인 이점을 누릴수 있다. 
-메모리는 최소한 4G 이상 8G를 추천한다. 
+가상머신을 설치하여 운영할  시스템이다.  가능하다면 가상머신이 설치되는 파티션은 SSD로 운영하는 것이 
+가상머신의 백업,복원등의 속도적인 이점을 누릴수 있다.  메모리는 최소한 4G 이상 8G를 추천한다. 
 
 **Host PC가 사용하는 OS**  
-Host system에는 Windows or Linux를 OS로 사용한다. 사용자의 편의성에 따라 선택하면 될 것이다. 개인적으로 Windows 8.1도 충분히 Host PC로서 편리하게 사용하고 있다.                                                                                                                                                                                                                                                                                                   
+Host system에는 Windows or Linux를 OS로 사용한다. 사용자의 편의성에 따라 선택하면 될 것이다. 
+개인적으로 Windows 8.1도 충분히 Host PC로서 편리하게 사용하고 있다.                                                                                                                                                                                                                                                                                                   
 
 **VM에 설치할 OS Image**  
-Ubuntu OS 64bit를 이용할 것이다. OS는 반드시 64bit를 준비하도록한다. 추후 웹하드에서 대용량 파일을 upload/download하기 위해 필요하다. 
+Ubuntu OS 64bit를 이용할 것이다. OS는 반드시 64bit를 준비하도록한다. 
+추후 웹하드에서 대용량 파일을 upload/download하기 위해 필요하다. 
 
 **Vmware workstation**  
 Vmware의 vplayer도 가능하지만 실시간 snapshot 과 restore를 위해서는 workstation 버젼을 준비하도록 한다. 
 
 **NAS에서 서비스할 데이터파일**
-일반적으로 Host PC에 USB등의 매체를 통해 연결하는 외장형 HDD or 스토리지가 여기에 해당한다. 이 문서에서는 USB2.0으로 연결된 외장형 HDD 를 이용한다.
+일반적으로 Host PC에 USB등의 매체를 통해 연결하는 외장형 HDD or 스토리지가 여기에 해당한다. 
+이 문서에서는 USB2.0으로 연결된 외장형 HDD 를 이용한다.
 
 
 ##VMware Install
 
-Host PC는 Windows 8.1이 설치되어 있다. Windows나 Linux나 크게 상관은 없지만 Vmware의 GUI나 운영의 친숙함을 볼때 Windows가 편리하다.
+Host PC는 Windows 8.1이 설치되어 있다. Windows나 Linux나 크게 상관은 없지만 Vmware의 GUI나 운영의 친숙함을 볼때
+Windows가 편리하다. 설치는 크게 이슈사항이 없으며 Vmware를 설치한 후에 가상머신의 이미지 생성은 
+가능하다면 SSD를 이용하는 것이 백업과 복원 VM의 기동과 종료에서 속도의 이점을 매우 크게 누릴수 있다. 
 
-설치는 크게 이슈사항이 없으며 Vmware를 설치한 후에 가상머신의 이미지 생성은 가능하다면 SSD를 이용하는 것이 백업과 복원 VM의 기동과 종료에서 속도의 이점을 매우 크게 누릴수 있다. 
-
-##VM생성 및 Guest OS 설치
-Host PC - VMware workstation - VM - Guest OS
-
+###VM생성 및 Guest OS 설치
+**Host PC - VMware workstation - VM - Guest OS**
 이러한 층으로 DIY NAS 시스템은 구성된다.  
 
  
 ###VM 생성
 이제 VM의 생성이 필요하다. 
-	
+	~~~
 	New Virutal Machine
 	Wizard
 	  Custom 선택
@@ -67,7 +72,7 @@ Host PC - VMware workstation - VM - Guest OS
 	  Maximum disk size 는 기본값 20G
 	    Allocatie all disk space now 선택
 	  Disk file : virtual machine의 이름 지정. 
-  
+  ~~~
 
 ###Guest OS Ubuntu 설치
 Guest OS에는 Ubuntu Server를 선택했다.
