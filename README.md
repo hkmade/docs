@@ -8,9 +8,17 @@ BOLD는 **
 -
 링크
 인라인 링크
-[Google](http://www.google.com/). 
+[Google](http://www.google.com/ "이건구글이지요"). 
 
 참조 링크
 [Google] [1].
 [1]: http://www.google.com/
+
+또다른읽기 편한링크
+[Google]
+[GOogle]: http://www.googl.com
+
+링크정의 구문은 유니크해야 하며 대소문자 구분이 없다
+
+
 ~~~
