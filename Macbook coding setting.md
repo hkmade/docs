@@ -24,30 +24,30 @@ Eclipse 실행 후 지정해야하는 workspcae경로는  $EClipse_HOME 하위�
 
 #### Eclipse Plugin 설치
 ##### SVN /GIT 설치
-Eclipse Pulldown Menu - Help - Eclipse Marketplace..  선택
-모든 목록을 받아와서 화면이 뿌릴때까지 잠시 기다릴것(고장아님)
-검색창에서 SVN으로 입력후 Subversive-SVN Team Provider 3.0.0 설치 (2015.06버젼)
-설치후 이클립스 리스타트
-동일한 위치에서 EGit-Git Team Provider 3.71.설치 (2015.06버전)
+Eclipse Pulldown Menu - Help - Eclipse Marketplace..  선택  
+모든 목록을 받아와서 화면이 뿌릴때까지 잠시 기다릴것(고장아님)  
+검색창에서 SVN으로 입력후 Subversive-SVN Team Provider 3.0.0 설치 (2015.06버젼)  
+설치후 이클립스 리스타트  
+동일한 위치에서 EGit-Git Team Provider 3.71.설치 (2015.06버전)  
 
 #### Websquare Feature 설치
-Eclipse Menu - Help - Install New Software.. 선택
-준비한 WebSquare feature 파일을 아카이브 모드로 설치.
-이때 feature 화일의 zip화일은 풀지 말고 zip화일을 선택한다.
-Add Repository 창에서 Name : WebSquare Studio. Location은 feature zip화일을 선택한다.
-Group items by category 옵션을 해제해야 3개의 fautures를 체크할 수 있다.
-설치단계에서 License 동의에 체크크
-이제 features 설치를 진행한다. 온라인 repositoy에서 다운로드후 설치과정을 진행.
-중간에 Security Warning은 websquare제품의 jar화일에서 발생. 무시하고 OK 버튼 누른후 진행
-설치 완료후 리스타트. WebSquare License를 입려
+Eclipse Menu - Help - Install New Software.. 선택  
+준비한 WebSquare feature 파일을 아카이브 모드로 설치.  
+이때 feature 화일의 zip화일은 풀지 말고 zip화일을 선택한다.  
+Add Repository 창에서 Name : WebSquare Studio. Location은 feature zip화일을 선택한다.  
+Group items by category 옵션을 해제해야 3개의 fautures를 체크할 수 있다.  
+설치단계에서 License 동의에 체크  
+이제 features 설치를 진행한다. 온라인 repositoy에서 다운로드후 설치과정을 진행.  
+중간에 Security Warning은 websquare제품의 jar화일에서 발생. 무시하고 OK 버튼 누른후 진행  
+설치 완료후 리스타트. WebSquare License를 입력  
 
 ### EClipse 환경 설정
 #### Workspace 
-Menu - Eclipse -> 환경설정
-General -> Workspace
-"Refresh using natvie hooks or polling" 항목 체크
-Text file encoding
-Other : UTF-8 로 설정
+Menu - Eclipse -> 환경설정  
+General -> Workspace  
+"Refresh using natvie hooks or polling" 항목 체크  
+Text file encoding  
+Other : UTF-8 로 설정  
 
 #### Editor 
 General -> Editors -> Text Editors
