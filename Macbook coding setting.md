@@ -64,6 +64,10 @@ Eclipes의 메인 창의 하단 Servers Tab 선택
 "No servers are available. CLick this link to create a new server.." 클릭
 이전에 구성을 완료한 "Apache Tomcat v 7.0을 선택하고 "finish"
 
+#### SVN 등록
+MENU-Window-Open Perspective-Other...
+SVN Repository 선택
+리스트업하는 모든 connector를 선택.
 
 
 
