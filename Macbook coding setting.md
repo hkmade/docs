@@ -5,11 +5,11 @@ OS X 맥북의 개발환경을 설정하고 구축한다.
 
 ###구축
 ####설치 준비물
-JDK 1.6이상
-Apache tomcat 7.0
-Eclipse 4.3 Kepler Java EE 32BIT --> 32비트 버전이 중요.
-Websqure 5 Studio 
-2014.11. Websquaure Studio는 Eclipse 3.6 ~ 4.3버젼만을 지원한다.
+* JDK 1.6이상
+* Apache tomcat 7.0
+* Eclipse 4.3 Kepler Java EE 32BIT --> 32비트 버전이 중요.
+* Websqure 5 Studio 
+* 2014.11. Websquaure Studio는 Eclipse 3.6 ~ 4.3버젼만을 지원한다.
 
 #### JDK
 OS X는 기본적으로 설치가 되어 있다. 
