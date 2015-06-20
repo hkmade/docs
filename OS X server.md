@@ -3,6 +3,7 @@
 ### Telnet 활성화
 sudo -i 로 root 로그인
 root계정용 .profile 생성
+   ```
     export PATH=/Users/miles/depot_tools:"$PATH"
     
     export LANG=ko_KR.UTF-8
@@ -10,3 +11,4 @@ root계정용 .profile 생성
     export CLICOLOR=1
     export LSCOLORS=GxFxCxDxBxegedabagaced
     export PS1="[\D{%Y-%m-%d %H:%M:%S}]-[\u@\h:\$PWD]\n\$ "
+```
